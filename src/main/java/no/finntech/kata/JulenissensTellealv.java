@@ -20,79 +20,49 @@ public final class JulenissensTellealv {
         return result;
     }
 
-    public static String somTallord(int i) {
+    public static String somTallord(int tall) {
 
-        if(i == Integer.MIN_VALUE) {
+        if(tall == Integer.MIN_VALUE) {
             return "minustomilliarderetthundreogførtisyvmillionerfirehundreogåttitretusensekshundreogførtiåtte";
-        } else if(i < 0) {
-            return "minus" + somTallord(i * -1);
+        } else if(tall < 0) {
+            return "minus" + somTallord(tall * -1);
         }
 
-        if(i < 20) {
-            return TALLORD[i];
-        } else if(i < 100) {
-            int tiere = (int) Math.floor(i / 10.0);
-            int enere = i - (tiere * 10);
+        if(tall < 20) {
+            return TALLORD[tall];
+        } else if(tall < 100) {
+            int tiere = (int) Math.floor(tall / 10.0);
+            int enere = tall - (tiere * 10);
             if(enere == 0) {
                 return TIERORD[tiere - 2];
             } else {
                 return TIERORD[tiere - 2] + TALLORD[enere];
             }
-        } else if (i < 1000) {
-            int hundrere = (int) Math.floor(i / 100.0);
-            int rest = i - (hundrere * 100);
-            String hundreord = TALLORD[hundrere] + "hundre";
-            String restord = "";
-            if(hundrere == 1) {
-                hundreord = "etthundre";
-            }
-            if(rest > 0) {
-                restord = "og" + somTallord(rest);
-            }
-            return hundreord + restord;
-        } else if(i < 1000000) {
-            int tusnere = (int) Math.floor(i / 1000.0);
-            int rest = i - (tusnere * 1000);
-            String tusnerord = somTallord(tusnere) + "tusen";
-            if(tusnere == 1) {
-                tusnerord = "ettusen";
-            }
-            if(rest == 0) {
-                return tusnerord;
-            } else if (rest < 100) {
-                return tusnerord + "og" + somTallord(rest);
-            } else {
-                return tusnerord + somTallord(rest);
-            }
-        } else if(i < 1000000000) {
-            int millionere = (int) Math.floor(i / 1000000.0);
-            int rest = i - (millionere * 1000000);
-            String millionerord = somTallord(millionere) + "millioner";
-            if(millionere == 1) {
-                millionerord = "enmillion";
-            }
-            if(rest == 0) {
-                return millionerord;
-            } else if (rest < 100) {
-                return millionerord + "og" + somTallord(rest);
-            } else {
-                return millionerord + somTallord(rest);
-            }
+        } else if (tall < 1000) {
+            return somStortTallord(tall, 100.0, "hundre", "etthundre");
+        } else if(tall < 1000000) {
+            return somStortTallord(tall, 1000.0, "tusen", "ettusen");
+        } else if(tall < 1000000000) {
+            return somStortTallord(tall, 1000000.0, "millioner", "enmillion");
         } else {
-            int milliardere = (int) Math.floor(i / 1000000000.0);
-            int rest = i - (milliardere * 1000000000);
-            String milliarderord = somTallord(milliardere) + "milliarder";
-            if(milliardere == 1) {
-                milliarderord = "enmilliard";
-            }
-            if(rest == 0) {
-                return milliarderord;
-            } else if (rest < 100) {
-                return milliarderord + "og" + somTallord(rest);
-            } else {
-                return milliarderord + somTallord(rest);
-            }
+            return somStortTallord(tall, 1000000000.0, "milliarder", "enmilliard");
         }
 
+    }
+
+    private static String somStortTallord(int tall, double tallstorrelse, String tallbenevnelseFlertall, String tallbenevnelseEntall) {
+        int stortTall = (int) Math.floor(tall / tallstorrelse);
+        int rest = (int) (tall - (stortTall * tallstorrelse));
+        String stortTallord = somTallord(stortTall) + tallbenevnelseFlertall;
+        if(stortTall == 1) {
+            stortTallord = tallbenevnelseEntall;
+        }
+        if(rest == 0) {
+            return stortTallord;
+        } else if (rest < 100) {
+            return stortTallord + "og" + somTallord(rest);
+        } else {
+            return stortTallord + somTallord(rest);
+        }
     }
 }
