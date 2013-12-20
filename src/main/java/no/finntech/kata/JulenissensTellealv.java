@@ -31,7 +31,7 @@ public final class JulenissensTellealv {
         if(tall < 20) {
             return TALLORD[tall];
         } else if(tall < 100) {
-            int tiere = (int) Math.floor(tall / 10.0);
+            int tiere = tall / 10;
             int enere = tall - (tiere * 10);
             if(enere == 0) {
                 return TIERORD[tiere - 2];
@@ -39,20 +39,20 @@ public final class JulenissensTellealv {
                 return TIERORD[tiere - 2] + TALLORD[enere];
             }
         } else if (tall < 1000) {
-            return somStortTallord(tall, 100.0, "hundre", "etthundre");
+            return somStortTallord(tall, 100, "hundre", "etthundre");
         } else if(tall < 1000000) {
-            return somStortTallord(tall, 1000.0, "tusen", "ettusen");
+            return somStortTallord(tall, 1000, "tusen", "ettusen");
         } else if(tall < 1000000000) {
-            return somStortTallord(tall, 1000000.0, "millioner", "enmillion");
+            return somStortTallord(tall, 1000000, "millioner", "enmillion");
         } else {
-            return somStortTallord(tall, 1000000000.0, "milliarder", "enmilliard");
+            return somStortTallord(tall, 1000000000, "milliarder", "enmilliard");
         }
 
     }
 
-    private static String somStortTallord(int tall, double tallstorrelse, String tallbenevnelseFlertall, String tallbenevnelseEntall) {
-        int stortTall = (int) Math.floor(tall / tallstorrelse);
-        int rest = (int) (tall - (stortTall * tallstorrelse));
+    private static String somStortTallord(int tall, int tallstorrelse, String tallbenevnelseFlertall, String tallbenevnelseEntall) {
+        int stortTall = tall / tallstorrelse;
+        int rest = tall - (stortTall * tallstorrelse);
         String stortTallord = somTallord(stortTall) + tallbenevnelseFlertall;
         if(stortTall == 1) {
             stortTallord = tallbenevnelseEntall;
